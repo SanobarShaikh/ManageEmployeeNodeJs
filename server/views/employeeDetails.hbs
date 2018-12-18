@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Employee Details</title>
+    <style>
+      body{ background-image:url("https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg"); background-repeat:no-repeat; background-position:center; background-size:cover; padding:10px;}
+      .panel h2{ color:#444444; font-size:18px; margin:0 0 8px 0;}
+      .panel p { color:#777777; font-size:14px; margin-bottom:30px; line-height:24px;}
+      .login-form .form-control {
+      background: #f7f7f7 none repeat scroll 0 0;
+      border: 1px solid #d4d4d4;
+      border-radius: 4px;
+      font-size: 14px;
+      height: 50px;
+      line-height: 50px;
+      }
+      .main-div {
+      background: #ffffff none repeat scroll 0 0;
+      border-radius: 2px;
+      margin: 10px auto 30px;
+      max-width: 38%;
+      padding: 50px 70px 70px 71px;
+      height: 600px;
+      }
+
+      .login-form .form-group {
+      margin-bottom:10px;
+      }
+      .login-form{ text-align:center;}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="form-heading"><center>Employee Details</center></h1>
+      <div class="login-form">
+        <div class="main-div">
+          {{# each employeeData}}
+          <div align="right">
+            <a href="/EditDetails/{{employeeId}}">Edit</a>&nbsp;&nbsp;&nbsp;<a href="/adminHome/{{employeeId}}">Delete</a>
+          </div>
+          <table width="100%" rules="all" style="text-align:left;" cellpadding="20" cellspacing="12">
+            <col width="30%">
+            <col width="70%">
+            <tr>
+              <td>
+                Employee Id
+              </td>
+              <td>
+                {{employeeId}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Name
+              </td>
+              <td>
+                {{employeeName}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                DOB
+              </td>
+              <td>
+                {{prettifyDate mployeeDOB}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Gender
+              </td>
+              <td>
+                {{employeeGender}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                DOJ
+              </td>
+              <td>
+                {{prettifyDate employeeDOJ}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Designation
+              </td>
+              <td>
+                {{employeeDesignation}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Salary
+              </td>
+              <td>
+                {{employeeSalary}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Email
+              </td>
+              <td>
+                {{employeeContact.email}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Phone No
+              </td>
+              <td>
+                {{employeeContact.mobileNo}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Address
+              </td>
+              <td>
+                {{employeeContact.address}}
+              </td>
+            </tr>
+            {{/each}}
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

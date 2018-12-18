@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Admin Home</title>
+    <style>
+      body{ background-image:url("https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg"); background-repeat:no-repeat; background-position:center; background-size:cover; padding:10px;}
+
+      .main-div {
+        background: #ffffff none repeat scroll 0 0;
+        border-radius: 2px;
+        margin: 10px auto 30px;
+        max-width: 90%;
+        padding: 20px 70px 70px 71px;
+        text-align:center;
+      }
+
+      .opt-div {
+        background: #ff9900 none repeat scroll 0 0;
+        border-radius: 2px;
+        margin: 10px auto 10px;
+        max-width: 100%;
+        height: 50px;
+        padding: 10px 10px 10px 10px;
+        text-align:center;
+      }
+
+      .opt-div .form-control {
+        background: #f7f7f7 none repeat scroll 0 0;
+        border: 1px solid #d4d4d4;
+        border-radius: 4px;
+        font-size: 14px;
+        height: 50px;
+        line-height: 50px;
+        padding: 6px
+      }
+
+      .btn.sort{
+        background: #f7f7f7 none repeat scroll 0 0;
+        border-color: #f0ad4e;
+        color: #000000;
+        border-radius: 6px;
+        font-size: 14px;
+        width: 7%;
+        height: 50px;
+        line-height: 50px;
+        padding: 0;
+      }
+
+      .data-div {
+        background: #eaeaea none repeat scroll 0 0;
+        border-radius: 2px;
+        margin: 10px auto 10px;
+        max-width: 100%;
+        height: 600px;
+        padding: 10px 10px 10px 10px;
+        text-align:center;
+      }
+
+      .data-div .opt-div {
+        background: #ffffff none repeat scroll 0 0;
+        border-radius: 2px;
+        margin: 10px auto 10px;
+        max-width: 100%;
+        height: 50px;
+        padding: 10px 10px 10px 10px;
+        text-align:left;
+      }
+
+      .btnOrange {
+        background: #ff9900 none repeat scroll 0 0;
+        border-color: #f0ad4e;
+        color: #000000;
+        border-radius: 6px;
+        font-size: 20px;
+        width: 3%;
+        height: 50px;
+        line-height: 50px;
+        padding: 0;
+      }
+
+      .data-tbl {
+        background: #ffffff none repeat scroll 0 0;
+        border-radius: 2px;
+        margin: 10px 10px 10px 0px;
+        width: 99.3%;
+        height: 450px;
+        padding: 10px 10px 10px 0px;
+        text-align:center;
+      }
+    </style>
+
+    <script>
+      let varEmployee = Array();
+      {{#each employees}}
+        objEmployee=Object();
+        objEmployee.employeeId={{employeeId}};
+        objEmployee.employeeName="{{employeeName}}";
+        objEmployee.employeeDOB="{{prettifyDate employeeDOB}}";
+        objEmployee.employeeGender="{{employeeGender}}";
+        objEmployee.employeeDOJ="{{prettifyDate employeeDOJ}}";
+        objEmployee.employeeDesignation="{{employeeDesignation}}";
+        objEmployee.employeeSalary={{employeeSalary}};
+
+        varEmployee.push(objEmployee);
+      {{/each}}
+
+      function sortData() {
+        let sortField=document.getElementById("field").value;
+        let sortType=document.getElementById("sortType").value;
+
+        switch (sortField) {
+          case "Employee Id":
+            switch (sortType) {
+              case "Ascending":
+                varEmployee.sort((a,b)=>a.employeeId-b.employeeId);
+                break;
+                case "Descending":
+                  varEmployee.sort((a,b)=>a.employeeId-b.employeeId);
+                  varEmployee.reverse();
+                break;
+            }
+            break;
+          case "Name":
+            switch (sortType) {
+              case "Ascending":
+                varEmployee.sort((a,b)=>{
+                  if(a.employeeName>b.employeeName)
+                    return 1;
+                  else
+                    return -1;
+                });
+                break;
+              case "Descending":
+                varEmployee.sort((a,b)=>{
+                  if(a.employeeName>b.employeeName)
+                    return 1;
+                  else
+                    return -1;
+                });
+                varEmployee.reverse();
+                break;
+            }
+            break;
+          case "DOB":
+            switch (sortType) {
+              case "Ascending":
+                varEmployee.sort((a,b)=>{
+                  if(new Date(a.employeeDOB)>new Date(b.employeeDOB))
+                    return 1;
+                  else
+                    return -1;
+                });
+                break;
+              case "Descending":
+                varEmployee.sort((a,b)=>{
+                  if(new Date(a.employeeDOB)>new Date(b.employeeDOB))
+                    return 1;
+                  else
+                    return -1;
+                });
+                varEmployee.reverse();
+                break;
+            }
+            break;
+          case "Gender":
+            switch (sortType) {
+              case "Ascending":
+                varEmployee.sort((a,b)=>{
+                  if(a.employeeGender>b.employeeGender)
+                    return 1;
+                  else
+                    return -1;
+                });
+                break;
+              case "Descending":
+                varEmployee.sort((a,b)=>{
+                  if(a.employeeGender>b.employeeGender)
+                    return 1;
+                  else
+                    return -1;
+                });
+                varEmployee.reverse();
+                break;
+            }
+            break;
+          case "DOJ":
+            switch (sortType) {
+              case "Ascending":
+                varEmployee.sort((a,b)=>{
+                  if(new Date(a.employeeDOJ)>new Date(b.employeeDOJ))
+                    return 1;
+                  else
+                    return -1;
+                });
+                break;
+              case "Descending":
+                varEmployee.sort((a,b)=>{
+                  if(new Date(a.employeeDOJ)>new Date(b.employeeDOJ))
+                    return 1;
+                  else
+                    return -1;
+                });
+                varEmployee.reverse();
+                break;
+            }
+            break;
+          case "Designation":
+            switch (sortType) {
+              case "Ascending":
+                varEmployee.sort((a,b)=>{
+                  if(a.employeeDesignation>b.employeeDesignation)
+                    return 1;
+                  else
+                    return -1;
+                });
+                break;
+              case "Descending":
+                varEmployee.sort((a,b)=>{
+                  if(a.employeeDesignation>b.employeeDesignation)
+                    return 1;
+                  else
+                    return -1;
+                });
+                varEmployee.reverse();
+                break;
+            }
+            break;
+          case "Salary":
+            switch (sortType) {
+              case "Ascending":
+                varEmployee.sort((a,b)=>a.employeeSalary-b.employeeSalary);
+                break;
+              case "Descending":
+                varEmployee.sort((a,b)=>a.employeeSalary-b.employeeSalary);
+                varEmployee.reverse();
+                break;
+            }
+            break;
+        }
+
+        displayEmployeeData();
+      }
+
+      function displayEmployeeData() {
+        let tblEmp=document.getElementById("empRecords");
+        let rows=tblEmp.firstElementChild.children;
+
+        for(i=1;i<rows.length;i++){
+          let cols=rows[i].children;
+          let j=0;
+          for(var key in varEmployee[0])
+            cols[j++].innerHTML=varEmployee[i-1][key];
+        }
+      }
+
+      function addEmployee() {
+        window.location="/addEmployee";
+      }
+    </script>
+  </head>
+  <body>
+      <div class="main-div">
+        <h2 align="right">Welcome Admin!</h2>
+        <div class="opt-div">
+          <div align="left" style="padding-left:10px;" width="20%">
+            <select id="field" class="form-control">
+              <option>Employee Id</option>
+              <option>Name</option>
+              <option>DOB</option>
+              <option>Gender</option>
+              <option>DOJ</option>
+              <option>Designation</option>
+              <option>Salary</option>
+            </select>
+            <select id="sortType" class="form-control">
+              <option>Ascending</option>
+              <option>Descending</option>
+            </select>
+            <div align="right" style="padding-left:73%;display: inline;" width="20%">
+              <input type="button" id="sort" onclick="sortData()" value="Sort" class="btn sort">
+            </div>
+          </div>
+
+        </div>
+        <div class="data-div">
+          <div class="opt-div">
+            <span align="left" width="20%"><strong style="color:#444444; font-size:25px; margin:0 0 8px 0;">Employee Details</strong></span>
+            <div align="right" style="padding-left:81%;display: inline;" width="20%">
+              <input type="button" id="add" value="+" class="btnOrange" align="left" onclick="addEmployee()">
+            </div>
+          </div>
+          <div class="data-tbl">
+            <table width="98%" id="empRecords" rules="cols" style="boredr:5px;border-color:black;border-collapse:collapse;border-radius:25px;padding-right:10px" cellpadding="8" cellspacing="8">
+              <tr>
+                <th>Employee Id</th>
+                <th>Name</th>
+                <th>DOB</th>
+                <th>Gender</th>
+                <th>DOJ</th>
+                <th>Designation</th>
+                <th>Salary</th>
+                <th>Details</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            {{#each employees}}
+                <tr>
+                  <td>
+                    {{employeeId}}
+                  </td>
+                  <td>
+                    {{employeeName}}
+                  </td>
+                  <td>
+                    {{prettifyDate employeeDOB}}
+                  </td>
+                  <td>
+                    {{employeeGender}}
+                  </td>
+                  <td>
+                    {{prettifyDate employeeDOJ}}
+                  </td>
+                  <td>
+                    {{employeeDesignation}}
+                  </td>
+                  <td>
+                    {{employeeSalary}}
+                  </td>
+                  <td>
+                    <a href="/employeeDetails/{{employeeId}}">Details</a>
+                  </td>
+                  <td>
+                    <a href="/EditDetails/{{employeeId}}">Edit</a>
+                  </td>
+                  <td>
+                    <a href="/adminHome/{{employeeId}}">Delete</a>
+                  </td>
+                </tr>
+            {{/each}}
+          </table>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>
