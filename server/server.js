@@ -4,6 +4,7 @@ const hbs=require("hbs");
 const checkLogIn=require("./checkLogIn");
 const employee=require("./manageEmployee");
 const dateFormat=require('dateformat');
+let globalToken;
 
 let app=express();
 
@@ -16,6 +17,10 @@ hbs.registerHelper("ifGender",(dbValue,compareValue)=>{
     return true;
   else
     return false;
+});
+
+hbs.registerHelper("getToken",()=>{
+  return globalToken;
 });
 
 //app.use(bodyParser.urlencoded())
@@ -42,8 +47,9 @@ app.post("/checkLogIn",(req,res)=>{
 });
 
 app.get("/adminHome",(req,res)=>{
+  console.log(req.header("x-auth"));
   employee.getAllEmployees().then((employees)=>{
-    res.render("adminHome.hbs",{employees});
+    res.render("adminHome.hbs",{employees,globalToken});
   }).catch((e)=>{console.log(e);});
 });
 
@@ -68,7 +74,11 @@ app.post("/addEmployee",(req,res)=>{
   delete employeeObj.mobileNo;
   delete employeeObj.address;
 
-  employee.addNewEmployee(employeeObj).then(()=>res.redirect("/adminHome")).catch((e)=>console.log(e));
+  //employee.addNewEmployee(employeeObj).then(()=>res.redirect("/adminHome")).catch((e)=>console.log(e));
+  employee.addNewEmployee(employeeObj).then((token)=>{
+    globalToken=token;
+    res.header("x-auth",token).redirect("/adminHome");
+  }).catch((e)=>console.log(e));
 });
 
 app.get("/employeeDetails/:id",(req,res)=>{
@@ -99,6 +109,20 @@ app.post("/EditDetails",(req,res)=>{
   employee.updateEmployeeById(empId,employeeObj).then((employeeData)=>{
     res.redirect("/adminHome");
   }).catch((e)=>console.log(e));
+});
+
+var authenticate = (req,res,next)=>{
+  let token=req.header("x-auth");
+  employee.getEmployeeByToken(token).then((employee)=>{
+    console.log(employee);
+    req.employee=employee;
+    req.token=token;
+    next();
+  }).catch((e)=>res.status(401).send(e));
+}
+
+app.get("/users/me",authenticate,(req,res)=>{
+  res.send(req.employee);
 });
 
 app.listen(80,()=>{console.log("Port is up!");})

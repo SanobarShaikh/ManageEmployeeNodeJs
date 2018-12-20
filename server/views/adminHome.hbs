@@ -92,6 +92,11 @@
 
     <script>
       let varEmployee = Array();
+
+      let myHeader=new Headers();
+      //myHeader.append("x-auth","");
+      //let xauth=myHeader.get("x-auth");
+
       {{#each employees}}
         objEmployee=Object();
         objEmployee.employeeId={{employeeId}};

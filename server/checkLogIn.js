@@ -17,15 +17,15 @@ let authUser=(unm,pwd)=>{
 
 module.exports={authUser};
 
-
 // let login=new docLogIn({
 //   username:"sana",
 //   password:"sana123"
 // });
 //
-// login.save().then((doc)=>{
-//   console.log(doc);
-//   },
-// (e)=>{
-//   console.log("Error in saving");
+// login.save().then(()=>{
+//   return login.generateAuthTocken();
+// }).then((token)=>{
+//   console.log(token);
+// }).catch((e)=>{
+//   console.log(e);
 // });

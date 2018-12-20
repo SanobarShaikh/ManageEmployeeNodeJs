@@ -1,7 +1,8 @@
 const mongoose=require("mongoose");
 const validator=require("validator");
+const jwt=require("jsonwebtoken");
 
-let docEmployees=new mongoose.model("docEmployee",{
+let employeeSchema=mongoose.Schema({
   employeeId:{
     type: Number,
     required: true,
@@ -63,7 +64,44 @@ let docEmployees=new mongoose.model("docEmployee",{
       minlength: 1,
       maxlength: 150
     }
-  }
+  },
+
+  tokens:[{
+    access:{
+      type:String,
+      required:true
+    },
+    token:{
+      type:String,
+      required:true
+    }
+  }]
 });
+
+employeeSchema.methods.generateAuthTocken=function(){
+  let employee=this;
+  let access="auth"
+
+  let token=jwt.sign({_id:employee._id.toHexString(),access},"abc123").toString();
+
+  employee.tokens.push({access,token});
+
+  return employee.save().then(()=>{return token});
+}
+
+employeeSchema.statics.getEmployeeByToken=function(token){
+  let employeeSchemaObj=this;
+  let decoded;
+  try {
+      decoded=jwt.verify(token,"abc123");
+      console.log(decoded);
+  } catch (e) {
+    return Promise.reject();
+  }
+
+  return Promise.resolve(decoded._id);
+}
+
+let docEmployees=new mongoose.model("docEmployee",employeeSchema);
 
 module.exports={docEmployees};

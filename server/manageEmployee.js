@@ -1,5 +1,6 @@
 const {mongoose}=require("./db/mongoose");
 const {docEmployees}=require("./models/docEmployee");
+const{ObjectId}=require("mongodb");
 
 let getAllEmployees=()=>{
   return new Promise((resolve,reject)=>{
@@ -20,6 +21,22 @@ let getEmployeeById=(id)=>{
   });
 }
 
+let  getEmployeeByToken=function(token){
+  return new Promise((resolve,reject)=>{
+    docEmployees.getEmployeeByToken(token).then((id)=>{
+      if(ObjectId.isValid(id)){
+        console.log("Valid Id");
+        docEmployees.findById(id).then((user)=>resolve(user));
+      }
+      else {
+        reject("Invalid Id");
+      }
+    }).catch((e)=>{
+      reject();
+    });
+  });
+}
+
 let removeExtras=(employee)=>{
   delete employee._id;
   delete employee.__v;
@@ -29,7 +46,12 @@ let removeExtras=(employee)=>{
 let addNewEmployee=(newEmployee)=>{
   return new Promise((resolve,reject)=>{
     let newEmployeeObj=new docEmployees(newEmployee);
-    newEmployeeObj.save().then(()=>resolve()).catch((e)=>reject(e));
+    //newEmployeeObj.save().then(()=>resolve()).catch((e)=>reject(e));
+    newEmployeeObj.save().then(()=>{
+      return newEmployeeObj.generateAuthTocken();
+    })
+    .then((token)=>resolve(token))
+    .catch((e)=>reject(e));
   });
 }
 
@@ -53,7 +75,8 @@ module.exports={getAllEmployees,
   getEmployeeById,
   updateEmployeeById,
   deleteEmployeeById,
-  addNewEmployee};
+  addNewEmployee,
+  getEmployeeByToken};
 
 // let employee = new docEmployees({
 //   employeeId:2,
